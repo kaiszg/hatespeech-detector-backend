@@ -53,8 +53,7 @@ public interface CommentService {
 	/**
 	 * 
 	 * @param id
-	 * @return
 	 */
-	public Comment deleteComment(Long id);
+	public void deleteComment(Long id);
 
 }

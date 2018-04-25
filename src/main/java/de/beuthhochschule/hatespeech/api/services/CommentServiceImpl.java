@@ -6,9 +6,12 @@
 package de.beuthhochschule.hatespeech.api.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Lists;
 
 import de.beuthhochschule.hatespeech.api.model.Comment;
 import de.beuthhochschule.hatespeech.api.repositories.CommentRepository;
@@ -26,37 +29,35 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<Comment> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return Lists.newArrayList(commentRepo.findAll());
 	}
 
 	@Override
 	public Comment findById(Long id) {
-		// TODO Auto-generated method stub
+		Optional<Comment> comment = commentRepo.findById(id);
+		if (comment.isPresent()) {
+			return comment.get();
+		}
 		return null;
 	}
 
 	@Override
 	public Comment createComment(Comment comment) {
-		// TODO Auto-generated method stub
-		return null;
+		return commentRepo.save(comment);
 	}
 
 	@Override
 	public List<Comment> createComments(List<Comment> comments) {
-		// TODO Auto-generated method stub
-		return null;
+		return Lists.newArrayList(commentRepo.saveAll(comments));
 	}
 
 	@Override
 	public Comment updateComment(Comment comment) {
-		// TODO Auto-generated method stub
-		return null;
+		return commentRepo.save(comment);
 	}
 
 	@Override
-	public Comment deleteComment(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteComment(Long id) {
+		commentRepo.deleteById(id);
 	}
 }
