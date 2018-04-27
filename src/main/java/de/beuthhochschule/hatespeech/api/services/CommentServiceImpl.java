@@ -33,6 +33,21 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
+	public List<Comment> findAllByOrderScore() {
+		return commentRepo.findAllByOrderByScoreAsc();
+	}
+
+	@Override
+	public List<Comment> findLabelledCommentsOrderByScore() {
+		return commentRepo.findByLabelNotNullOrderByScoreDesc();
+	}
+
+	@Override
+	public List<Comment> findUnlabelledCommentsOrderByScore() {
+		return commentRepo.findByLabelIsNullOrderByScoreDesc();
+	}
+
+	@Override
 	public Comment findById(Long id) {
 		Optional<Comment> comment = commentRepo.findById(id);
 		if (comment.isPresent()) {

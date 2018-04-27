@@ -24,6 +24,24 @@ public interface CommentService {
 	
 	/**
 	 * 
+	 * @return
+	 */
+	public List<Comment> findAllByOrderScore();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Comment> findLabelledCommentsOrderByScore();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Comment> findUnlabelledCommentsOrderByScore();
+	
+	/**
+	 * 
 	 * @param id
 	 * @return
 	 */

@@ -31,7 +31,17 @@ public class CommentController {
 	
 	@GetMapping
 	public List<Comment> getAllComments() {
-		return commentService.findAll();
+		return commentService.findAllByOrderScore();
+	}
+
+	@GetMapping("/labelled")
+	public List<Comment> getLabelledComments() {
+		return commentService.findLabelledCommentsOrderByScore();
+	}
+	
+	@GetMapping("/unlabelled")
+	public List<Comment> getUnlabelledComments() {
+		return commentService.findUnlabelledCommentsOrderByScore();
 	}
 	
 	@PostMapping
