@@ -5,9 +5,14 @@
  */
 package de.beuthhochschule.hatespeech.api.controllers;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import org.deeplearning4j.nn.modelimport.keras.KerasModelImport;
+import org.deeplearning4j.nn.modelimport.keras.exceptions.InvalidKerasConfigurationException;
+import org.deeplearning4j.nn.modelimport.keras.exceptions.UnsupportedKerasConfigurationException;
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,7 +53,10 @@ public class CommentController {
 	}
 	
 	@PostMapping
-	public Comment createComment(@RequestBody Comment comment) {
+	public Comment createComment(@RequestBody Comment comment) /* throws IOException, InvalidKerasConfigurationException, UnsupportedKerasConfigurationException */ {
+		// TODO import Keras-Model and predict score
+		// MultiLayerNetwork network = KerasModelImport.importKerasSequentialModelAndWeights("D:\\Studium\\EDM\\test_model.h5");
+		// System.out.println(network.conf().toJson());
 		return commentService.createComment(comment);
 	}
 	
