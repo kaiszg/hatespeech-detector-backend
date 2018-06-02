@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import de.beuthhochschule.hatespeech.api.model.CommentHourStatistic;
 import org.deeplearning4j.nn.modelimport.keras.KerasModelImport;
 import org.deeplearning4j.nn.modelimport.keras.exceptions.InvalidKerasConfigurationException;
 import org.deeplearning4j.nn.modelimport.keras.exceptions.UnsupportedKerasConfigurationException;
@@ -64,6 +65,12 @@ public class CommentController {
             return new ResponseEntity<List<Comment>>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<Comment>>(comments, HttpStatus.OK);
+	}
+
+	@GetMapping("/deleted/stats/hours")
+	public ResponseEntity<List<CommentHourStatistic>> getNbDeletedPerHour() {
+		List<CommentHourStatistic> stats = commentService.getNbDeletedPerHour();
+		return new ResponseEntity<List<CommentHourStatistic>>(stats, HttpStatus.OK);
 	}
 	
 	@PostMapping

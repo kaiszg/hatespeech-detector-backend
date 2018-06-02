@@ -7,10 +7,18 @@ package de.beuthhochschule.hatespeech.api.repositories;
 
 import java.util.List;
 
+import de.beuthhochschule.hatespeech.api.model.CommentHourStatistic;
+import org.hibernate.annotations.NamedNativeQuery;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import de.beuthhochschule.hatespeech.api.model.Comment;
+import org.springframework.data.repository.query.Param;
+
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.NamedQuery;
+import javax.persistence.SqlResultSetMapping;
 
 /**
  *
@@ -24,8 +32,11 @@ public interface CommentRepository extends CrudRepository<Comment, Long>{
 	
 	List<Comment> findByLabelIsNullOrderByScoreDesc();
 
-	@Query("SELECT DISTINCT c.label FROM Comment c WHERE c.label IS NOT NULL")
-	List<String> findAllLabels();
+	@Query("SELECT DISTINCT c.subLabel FROM Comment c WHERE c.subLabel IS NOT NULL")
+	List<String> findAllSubLabels();
 
-	int countByLabel(String label);
+	@Query("SELECT COUNT(c) FROM Comment c WHERE (hour(c.timestamp) = :hour) AND (c.label = :label)")
+	int getNbCommentsForHourAndLabel(@Param("hour") int hour, @Param("label") String label);
+
+	int countBySubLabel(String label);
 }

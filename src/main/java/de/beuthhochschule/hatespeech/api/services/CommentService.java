@@ -8,6 +8,7 @@ package de.beuthhochschule.hatespeech.api.services;
 import java.util.List;
 
 import de.beuthhochschule.hatespeech.api.model.Comment;
+import de.beuthhochschule.hatespeech.api.model.CommentHourStatistic;
 
 /**
  *
@@ -73,5 +74,11 @@ public interface CommentService {
 	 * @param id
 	 */
 	public void deleteComment(Long id);
+
+	/**
+	 *
+	 * @return
+	 */
+	public List<CommentHourStatistic> getNbDeletedPerHour();
 
 }

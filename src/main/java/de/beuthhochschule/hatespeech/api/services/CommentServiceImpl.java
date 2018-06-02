@@ -5,9 +5,11 @@
  */
 package de.beuthhochschule.hatespeech.api.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import de.beuthhochschule.hatespeech.api.model.CommentHourStatistic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +56,18 @@ public class CommentServiceImpl implements CommentService {
 			return comment.get();
 		}
 		return null;
+	}
+
+	@Override
+	public List<CommentHourStatistic> getNbDeletedPerHour() {
+		List<CommentHourStatistic> stats = new ArrayList<CommentHourStatistic>();
+		for(int i= 0; i <= 23; i++) {
+			CommentHourStatistic commentStat = new CommentHourStatistic();
+			commentStat.setHour(i);
+			commentStat.setNbComments(commentRepo.getNbCommentsForHourAndLabel(i, "deleted"));
+			stats.add(commentStat);
+		}
+		return stats;
 	}
 
 	@Override

@@ -16,11 +16,11 @@ public class LabelServiceImpl implements LabelService {
 
     @Override
     public List<Label> getNbComments() {
-        List<String> labels = commentRepository.findAllLabels();
+        List<String> subLabels = commentRepository.findAllSubLabels();
         List<Label> result = new ArrayList<Label>();
-        for (String label : labels) {
-            int nb = commentRepository.countByLabel(label);
-            result.add(new Label(label, nb));
+        for (String subLabel : subLabels) {
+            int nb = commentRepository.countBySubLabel(subLabel);
+            result.add(new Label(subLabel, nb));
         }
         return result;
     }

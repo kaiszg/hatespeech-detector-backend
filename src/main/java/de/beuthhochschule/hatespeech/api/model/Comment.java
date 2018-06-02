@@ -39,6 +39,9 @@ public class Comment {
 	
 	@Column(name="label")
 	private String label;
+
+	@Column(name="sub_label")
+	private String subLabel;
 	
 	@Column(name="url")
 	private String url;
@@ -83,6 +86,14 @@ public class Comment {
 		this.label = label;
 	}
 
+	public String getSubLabel() {
+		return subLabel;
+	}
+
+	public void setSubLabel(String subLabel) {
+		this.subLabel = subLabel;
+	}
+
 	public String getUrl() {
 		return url;
 	}
@@ -101,12 +112,13 @@ public class Comment {
 				Objects.equals(score, comment.score) &&
 				Objects.equals(timestamp, comment.timestamp) &&
 				Objects.equals(label, comment.label) &&
+				Objects.equals(subLabel, comment.subLabel) &&
 				Objects.equals(url, comment.url);
 	}
 
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(id, text, score, timestamp, label, url);
+		return Objects.hash(id, text, score, timestamp, label, subLabel, url);
 	}
 }
