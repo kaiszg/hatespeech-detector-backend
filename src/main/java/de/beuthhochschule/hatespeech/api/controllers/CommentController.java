@@ -17,12 +17,7 @@ import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import de.beuthhochschule.hatespeech.api.model.Comment;
 import de.beuthhochschule.hatespeech.api.services.CommentService;
@@ -74,11 +69,14 @@ public class CommentController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Comment> createComment(@RequestBody Comment comment) /* throws IOException, InvalidKerasConfigurationException, UnsupportedKerasConfigurationException */ {
-		// TODO import Keras-Model and predict score
-		// MultiLayerNetwork network = KerasModelImport.importKerasSequentialModelAndWeights("D:\\Studium\\EDM\\test_model.h5");
-		// System.out.println(network.conf().toJson());
+	public ResponseEntity<Comment> createComment(@RequestBody Comment comment) {
         return new ResponseEntity<Comment>(commentService.createComment(comment), HttpStatus.CREATED);
+	}
+
+	@PutMapping
+	public ResponseEntity<Comment> updateComment(@RequestBody Comment comment) {
+		Comment updated = commentService.updateComment(comment);
+		return new ResponseEntity<Comment>(updated, HttpStatus.OK);
 	}
 	
 	@GetMapping("/init")
