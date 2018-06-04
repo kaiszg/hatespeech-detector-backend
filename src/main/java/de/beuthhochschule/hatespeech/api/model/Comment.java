@@ -46,6 +46,9 @@ public class Comment {
 	@Column(name="url")
 	private String url;
 
+	@Column(name="article_id")
+	private String articleId;
+
 	public Long getId() {
 		return id;
 	}
@@ -102,6 +105,14 @@ public class Comment {
 		this.url = url;
 	}
 
+	public String getArticleId() {
+		return articleId;
+	}
+
+	public void setArticleId(String articleId) {
+		this.articleId = articleId;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -113,12 +124,13 @@ public class Comment {
 				Objects.equals(timestamp, comment.timestamp) &&
 				Objects.equals(label, comment.label) &&
 				Objects.equals(subLabel, comment.subLabel) &&
-				Objects.equals(url, comment.url);
+				Objects.equals(url, comment.url) &&
+				Objects.equals(articleId, comment.articleId);
 	}
 
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(id, text, score, timestamp, label, subLabel, url);
+		return Objects.hash(id, text, score, timestamp, label, subLabel, url, articleId);
 	}
 }
