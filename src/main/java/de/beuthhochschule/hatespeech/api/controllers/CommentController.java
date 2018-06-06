@@ -8,6 +8,7 @@ package de.beuthhochschule.hatespeech.api.controllers;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import de.beuthhochschule.hatespeech.api.model.CommentHourStatistic;
 import org.deeplearning4j.nn.modelimport.keras.KerasModelImport;
@@ -44,18 +45,18 @@ public class CommentController {
         return new ResponseEntity<List<Comment>>(comments, HttpStatus.OK);
 	}
 
-	@GetMapping("/labelled")
-	public ResponseEntity<List<Comment>> getLabelledComments() {
-	    List<Comment> comments = commentService.findLabelledCommentsOrderByScore();
+	@GetMapping({"/labelled", "/labelled/{sortOrder}"})
+	public ResponseEntity<List<Comment>> getLabelledComments(@PathVariable Optional<String> sortOrder) {
+	    List<Comment> comments = commentService.findLabelledComments(sortOrder);
 	    if(comments == null || comments.isEmpty()) {
             return new ResponseEntity<List<Comment>>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<Comment>>(comments, HttpStatus.OK);
 	}
 	
-	@GetMapping("/unlabelled")
-	public ResponseEntity<List<Comment>> getUnlabelledComments() {
-        List<Comment> comments = commentService.findUnlabelledCommentsOrderByScore();
+	@GetMapping({"/unlabelled", "/unlabelled/{sortOrder}"})
+	public ResponseEntity<List<Comment>> getUnlabelledComments(@PathVariable Optional<String> sortOrder) {
+        List<Comment> comments = commentService.findUnlabelledComments(sortOrder);
         if(comments == null || comments.isEmpty()) {
             return new ResponseEntity<List<Comment>>(HttpStatus.NO_CONTENT);
         }

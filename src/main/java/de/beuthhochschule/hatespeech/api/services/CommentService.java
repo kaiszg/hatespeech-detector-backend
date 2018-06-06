@@ -6,6 +6,7 @@
 package de.beuthhochschule.hatespeech.api.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.beuthhochschule.hatespeech.api.model.Comment;
 import de.beuthhochschule.hatespeech.api.model.CommentHourStatistic;
@@ -28,18 +29,20 @@ public interface CommentService {
 	 * @return
 	 */
 	public List<Comment> findAllByOrderScore();
-	
+
 	/**
-	 * 
+	 *
+	 * @param sortOrder
 	 * @return
 	 */
-	public List<Comment> findLabelledCommentsOrderByScore();
-	
+	public List<Comment> findLabelledComments(Optional<String> sortOrder);
+
 	/**
-	 * 
+	 *
+	 * @param sortOrder
 	 * @return
 	 */
-	public List<Comment> findUnlabelledCommentsOrderByScore();
+	public List<Comment> findUnlabelledComments(Optional<String> sortOrder);
 	
 	/**
 	 * 

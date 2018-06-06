@@ -29,8 +29,16 @@ public interface CommentRepository extends CrudRepository<Comment, Long>{
 	List<Comment> findAllByOrderByScoreAsc();
 
 	List<Comment> findByLabelNotNullOrderByScoreDesc();
-	
+
+	List<Comment> findByLabelNotNullOrderByArticleIdDescScoreDesc();
+
+	List<Comment> findByLabelNotNullOrderByTimestampDescScoreDesc();
+
 	List<Comment> findByLabelIsNullOrderByScoreDesc();
+
+	List<Comment> findByLabelIsNullOrderByArticleIdDescScoreDesc();
+
+	List<Comment> findByLabelIsNullOrderByTimestampDescScoreDesc();
 
 	@Query("SELECT DISTINCT c.subLabel FROM Comment c WHERE c.subLabel IS NOT NULL")
 	List<String> findAllSubLabels();
