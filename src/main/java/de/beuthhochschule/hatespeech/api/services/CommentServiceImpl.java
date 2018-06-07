@@ -143,4 +143,14 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(Long id) {
         commentRepo.deleteById(id);
     }
+
+    @Override
+    public int getNbDeletedComments() {
+        return commentRepo.countByLabel("deleted");
+    }
+
+    @Override
+    public int getNbNotDeletedComments() {
+        return commentRepo.countByLabel("not deleted");
+    }
 }

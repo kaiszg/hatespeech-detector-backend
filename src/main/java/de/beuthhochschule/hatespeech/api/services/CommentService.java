@@ -84,4 +84,15 @@ public interface CommentService {
 	 */
 	public List<CommentHourStatistic> getNbDeletedPerHour();
 
+	/**
+	 *
+	 * @return
+	 */
+	public int getNbDeletedComments();
+
+	/**
+	 *
+	 * @return
+	 */
+	public int getNbNotDeletedComments();
 }

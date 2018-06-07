@@ -63,6 +63,16 @@ public class CommentController {
         return new ResponseEntity<List<Comment>>(comments, HttpStatus.OK);
 	}
 
+	@GetMapping("deleted/count")
+	public int getNumberOfDeletedComments() {
+		return commentService.getNbDeletedComments();
+	}
+
+	@GetMapping("not-deleted/count")
+	public int getNumberOfNotDeletedComments() {
+		return commentService.getNbNotDeletedComments();
+	}
+
 	@GetMapping("/deleted/stats/hours")
 	public ResponseEntity<List<CommentHourStatistic>> getNbDeletedPerHour() {
 		List<CommentHourStatistic> stats = commentService.getNbDeletedPerHour();

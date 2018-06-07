@@ -46,5 +46,7 @@ public interface CommentRepository extends CrudRepository<Comment, Long>{
 	@Query("SELECT COUNT(c) FROM Comment c WHERE (hour(c.timestamp) = :hour) AND (c.label = :label)")
 	int getNbCommentsForHourAndLabel(@Param("hour") int hour, @Param("label") String label);
 
-	int countBySubLabel(String label);
+	int countByLabel(String label);
+
+	int countBySubLabel(String subLabel);
 }
