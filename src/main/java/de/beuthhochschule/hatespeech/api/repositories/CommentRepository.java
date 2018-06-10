@@ -5,20 +5,14 @@
  */
 package de.beuthhochschule.hatespeech.api.repositories;
 
-import java.util.List;
-
-import de.beuthhochschule.hatespeech.api.model.CommentHourStatistic;
-import org.hibernate.annotations.NamedNativeQuery;
+import de.beuthhochschule.hatespeech.api.model.Comment;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-
-import de.beuthhochschule.hatespeech.api.model.Comment;
 import org.springframework.data.repository.query.Param;
 
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.NamedQuery;
-import javax.persistence.SqlResultSetMapping;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -40,13 +34,23 @@ public interface CommentRepository extends CrudRepository<Comment, Long>{
 
 	List<Comment> findByLabelIsNullOrderByTimestampDescScoreDesc();
 
+	@Query("FROM Comment c WHERE c.timestamp BETWEEN :date1 AND :date2 ORDER BY c.score DESC")
+	List<Comment> findUnlabelledBetweenDates(@Param("date1") Date date1, @Param("date2") Date date2, Pageable pageable);
+
 	@Query("SELECT DISTINCT c.subLabel FROM Comment c WHERE c.subLabel IS NOT NULL")
 	List<String> findAllSubLabels();
 
 	@Query("SELECT COUNT(c) FROM Comment c WHERE (hour(c.timestamp) = :hour) AND (c.label = :label)")
 	int getNbCommentsForHourAndLabel(@Param("hour") int hour, @Param("label") String label);
 
+	@Query("SELECT COUNT(c) FROM Comment c WHERE (day(c.timestamp) = day(:date)) AND (month(c.timestamp) = month(:date)) AND (year(c.timestamp) = year(:date))")
+	int countCommentsOfDate(@Param("date") Date date);
+
+	@Query("SELECT count(c) FROM Comment c WHERE c.timestamp BETWEEN :date1 AND :date2")
+	int countCommentsBetweenDates(@Param("date1") Date date1, @Param("date2") Date date2);
+
 	int countByLabel(String label);
 
 	int countBySubLabel(String subLabel);
+
 }

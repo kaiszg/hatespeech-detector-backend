@@ -92,7 +92,26 @@ public interface CommentService {
 
 	/**
 	 *
+	 * @param numberOfComments
+	 * @return
+	 */
+	public List<Comment> findTopCommentsOfCurrentWeek(int numberOfComments);
+
+	/**
+	 *
 	 * @return
 	 */
 	public int getNbNotDeletedComments();
+
+	/**
+	 *
+	 * @return
+	 */
+	int getNbCommentsToday();
+
+	/**
+	 *
+	 * @return
+	 */
+	int getNbCommentsThisWeek();
 }
