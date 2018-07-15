@@ -5,6 +5,7 @@
  */
 package de.beuthhochschule.hatespeech.api.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -114,4 +115,25 @@ public interface CommentService {
 	 * @return
 	 */
 	int getNbCommentsThisWeek();
+
+	/**
+	 * 
+	 * @param fromDate
+	 * @return
+	 */
+	public List<Comment> findAllFromDateByOrderScore(Date fromDate);
+
+	/**
+	 * 
+	 * @param fromDate
+	 * @return
+	 */
+	public List<Comment> findLabelledFromDateByOrderScore(Date fromDate);
+
+	/**
+	 * 
+	 * @param fromDate
+	 * @return
+	 */
+	public List<Comment> findUnlabelledFromDateByOrderScore(Date fromDate);
 }

@@ -1,0 +1,22 @@
+version: '2.1'
+
+services: 
+  hatespeech-detector-mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=manage
+      - MYSQL_DATABASE=hatespeech-detector
+      - MYSQL_USER=dbuser
+      - MYSQL_PASSWORD=dbp4ss
+  hatespeech-detector-api:
+    image: hatespeech-detector/hatespeech-detector-api
+    depends_on:
+      - hatespeech-detector-mysql
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_HOST=hatespeech-detector-mysql
+      - DATABASE_USER=dbuser
+      - DATABASE_PASSWORD=dbp4ss
+      - DATABASE_NAME=hatespeech-detector
+      - DATABASE_PORT=3306

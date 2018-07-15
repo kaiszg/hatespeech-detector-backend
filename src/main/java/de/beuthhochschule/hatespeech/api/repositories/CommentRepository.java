@@ -33,6 +33,15 @@ public interface CommentRepository extends CrudRepository<Comment, Long>{
 	List<Comment> findByLabelIsNullOrderByArticleIdDescScoreDesc();
 
 	List<Comment> findByLabelIsNullOrderByTimestampDescScoreDesc();
+	
+	@Query("FROM Comment c WHERE c.timestamp >= :fromDate ORDER BY c.score DESC")
+	List<Comment> findAllFromDateByOrderScore(@Param("fromDate") Date fromDate);
+
+	@Query("FROM Comment c WHERE c.timestamp >= :fromDate AND c.label IS NOT NULL ORDER BY c.score DESC")
+	List<Comment> findLabelledFromDateByOrderScore(@Param("fromDate") Date fromDate);
+
+	@Query("FROM Comment c WHERE c.timestamp >= :fromDate AND c.label IS NULL ORDER BY c.score DESC")
+	List<Comment> findUnlabelledFromDateByOrderScore(@Param("fromDate") Date fromDate);
 
 	@Query("FROM Comment c WHERE c.timestamp BETWEEN :date1 AND :date2 ORDER BY c.score DESC")
 	List<Comment> findUnlabelledBetweenDates(@Param("date1") Date date1, @Param("date2") Date date2, Pageable pageable);

@@ -5,36 +5,56 @@
  */
 package de.beuthhochschule.hatespeech.api.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
-import de.beuthhochschule.hatespeech.api.model.Comment;
-import de.beuthhochschule.hatespeech.api.model.CommentHourStatistic;
-import de.beuthhochschule.hatespeech.api.repositories.CommentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.*;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
+
+import de.beuthhochschule.hatespeech.api.model.Comment;
+import de.beuthhochschule.hatespeech.api.model.CommentHourStatistic;
+import de.beuthhochschule.hatespeech.api.repositories.CommentRepository;
 
 /**
  * @author Kais
  */
 @Service
 public class CommentServiceImpl implements CommentService {
-
+	
     @Autowired
     private CommentRepository commentRepo;
 
-    @Override
+    @Value("${app.scoreMicroserviceHost}")
+    private String scoreMicroserviceHost;
+    
+    /*
+    public CommentServiceImpl( String scoreMicroserviceHost) {
+		this.scoreMicroserviceHost = scoreMicroserviceHost;
+	}
+*/
+	@Override
     public List<Comment> findAll() {
         return Lists.newArrayList(commentRepo.findAll());
     }
@@ -75,6 +95,24 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
+	@Override
+	public List<Comment> findAllFromDateByOrderScore(Date fromDate) {
+		List<Comment> comments = commentRepo.findAllFromDateByOrderScore(fromDate);
+		return comments;
+	}
+
+	@Override
+	public List<Comment> findLabelledFromDateByOrderScore(Date fromDate) {
+		List<Comment> comments = commentRepo.findLabelledFromDateByOrderScore(fromDate);
+		return comments;
+	}
+
+	@Override
+	public List<Comment> findUnlabelledFromDateByOrderScore(Date fromDate) {
+		List<Comment> comments = commentRepo.findUnlabelledFromDateByOrderScore(fromDate);
+		return comments;
+	}
+
     @Override
     public Comment findById(Long id) {
         Optional<Comment> comment = commentRepo.findById(id);
@@ -108,7 +146,7 @@ public class CommentServiceImpl implements CommentService {
         HttpEntity<String> entity = new HttpEntity<String>(input, headers);
 
         ResponseEntity<String> response = restTemplate
-                .exchange("http://localhost:5000/predict", HttpMethod.POST, entity, String.class);
+                .exchange("http://" + scoreMicroserviceHost + ":5000/predict", HttpMethod.POST, entity, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
             try {
@@ -132,7 +170,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> createComments(List<Comment> comments) {
-        return Lists.newArrayList(commentRepo.saveAll(comments));
+    	List<Comment> results = new ArrayList<Comment>();
+    	for(Comment comment : comments) {
+    		Comment result = createComment(comment);
+    		results.add(result);
+    	}
+        return results;
     }
 
     @Override

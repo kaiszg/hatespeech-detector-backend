@@ -1,0 +1,47 @@
+/*
+ * Beuth University of Applied Sciences
+ * Hatespeech Detector
+ * Created on 15.07.2018
+ */
+package de.beuthhochschule.hatespeech.api.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import io.swagger.models.Contact;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+/**
+ *
+ * @author Kais
+ *
+ */
+@Configuration
+@EnableSwagger2
+public class SwaggerConfig {
+
+	@Bean
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("de.beuthhochschule.hatespeech.api.controllers"))
+				.paths(PathSelectors.any()).build().apiInfo(metaInfo());
+	}
+
+	private ApiInfo metaInfo() {
+		ApiInfo apiInfo = new ApiInfo(
+				"Hate Speech Detector API",
+				"REST API for Hate Speech Detector application",
+				"1.0",
+				"Terms of service",
+				"Beuth Hochschule für Technik Berlin",
+				"Apache License Version 2.0",
+				"http://www.apache.org/license.html"
+				);
+		return apiInfo;
+	}
+
+}
